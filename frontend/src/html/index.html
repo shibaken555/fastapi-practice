@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="jp">
+<title>
+    TickFetch
+</title>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="株式投資に役立つ情報をワンストップで提供">
+</head>
+
+<body>
+    <h1>株式投資に役立つ情報をワンストップで提供
+    </h1>
+    <h2>
+        ティッカーシンボルで会社を検索
+    </h2>
+    <form id="stockForm">
+        ティッカーシンボル:<input type="search" id="tickerSymbol" placeholder="AAPL">
+        <button type="submit">検索</button>
+    </form>
+    <script>
+        const form = document.querySelector("#stockForm");
+        form.addEventListener('submit', async (event) => {
+            // フォームのデフォルト動作を無効化
+            event.preventDefault();
+            // ユーザーの入力したティッカーシンボルを検出
+            const tickerSymbol = document.querySelector('#tickerSymbol').value;
+            // 入力したティッカーシンボルでリクエストを送信
+            const reqUrl = `/fetch_stocks/overview/${encodeURIComponent(tickerSymbol)}`;
+            try {
+                const response = await fetch(reqUrl);
+                if (response.ok) {
+                    const responseCompanyOverView = await response.json();
+                    // レスポンスを localStorage に保存
+                    localStorage.setItem("responseCompanyOverView", JSON.stringify(responseCompanyOverView));
+                    console.log("保存したデータ:", responseCompanyOverView);
+                    // データ保存後に画面遷移
+                    window.location.href = `companyoverview.html`;
+                } else {
+                    console.error("サーバーエラー:", response.status, response.statusText);
+                    return;
+                }
+            } catch (error) {
+                console.error("データ取得中にエラーが発生しました:", error);
+            }
+        });
+    </script>
+
+    </h1>
+</body>
+
+</html>

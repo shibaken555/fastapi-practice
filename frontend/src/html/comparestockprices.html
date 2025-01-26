@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="jp">
+<title>
+    TickFetch
+</title>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="株式投資に役立つ情報をワンストップで提供">
+</head>
+
+<body>
+    <h1>複数の企業の株価を比較して表示するページ
+    </h1>
+    <div>
+        ここに検索したチャートを表示している企業の名前を記載するJavascriptのコードを書く
+    </div>
+
+    <div>
+        <canvas id="stockPrice"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- ここにバックエンドのAPIから返却されたデータを基にチャートを表示させるAPIを書く -->
+    <script>
+        var ctx = document.getElementById('stockPrice').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['2018/01/01', '2018/01/02', '2018/01/03', '2018/01/04', '2018/01/05', '2018/01/06', '2018/01/07'],
+                datasets: [{
+                    label: '折れ線A',
+                    type: "line",
+                    fill: false,
+                    data: [10000, 11000, 15000, 12000, 9000, 12000, 13000],
+                    borderColor: "rgb(154, 162, 235)",
+                    yAxisID: "y-axis-1",
+                }, {
+                    label: '折れ線B',
+                    type: "line",
+                    fill: false,
+                    data: [8000, 9000, 10000, 9000, 6000, 8000, 7000],
+                    borderColor: "rgb(54, 162, 235)",
+                    yAxisID: "y-axis-1",
+                }]
+            },
+            options: {
+                tooltips: {
+                    mode: 'nearest',
+                    intersect: false,
+                },
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        id: "y-axis-1",
+                        type: "linear",
+                        position: "left",
+                        ticks: {
+                            max: 15000,
+                            min: 0,
+                            stepSize: 1000
+                        },
+                    }, {
+                        id: "y-axis-2",
+                        type: "linear",
+                        position: "right",
+                        ticks: {
+                            max: 200,
+                            min: 0,
+                            stepSize: 5
+                        },
+                        gridLines: {
+                            drawOnChartArea: false,
+                        },
+                    }],
+                },
+            }
+        });
+
+    </script>
+
+    </div>
+</body>
+
+</html>

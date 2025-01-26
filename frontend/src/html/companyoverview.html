@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="jp">
+<title>
+    TickFetch
+</title>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="株式投資に役立つ情報をワンストップで提供">
+</head>
+
+<body>
+    <h1>ティッカーシンボルと企業名を表示する概要ページ
+    </h1>
+</body>
+<article>
+    <article id="companyName">
+        <h2>
+            企業名
+        </h2>
+    </article>
+
+    <article id="stockPrice">
+        <h2>
+            株価
+        </h2>
+    </article>
+    <article id="marketCap">
+        <h2>
+            時価総額
+        </h2>
+    </article>
+    <button type="submit">企業情報</button>
+</article>
+<script>
+    const value = localStorage.getItem('responseCompanyOverView');
+    if (value) {
+        const parsedValue = JSON.parse(value);
+        console.log('取得したデータ:', parsedValue);
+        // 受け取ったレスポンスから企業名を表示させる
+        const displayedCompanyName = document.createTextNode(parsedValue.company_name);
+        const companyName = document.querySelector('#companyName');
+        companyName.appendChild(displayedCompanyName);
+        // 受け取ったレスポンスから最新の株価を表示させる
+        const displayedStockPrice = document.createTextNode(parsedValue.stock_price);
+        const stockPrice = document.querySelector('#stockPrice');
+        stockPrice.appendChild(displayedStockPrice);
+        // 受け取ったレスポンスから最新の時価総額を表示させる
+        const displayedMarketCap = document.createTextNode(parsedValue.market_cap);
+        const marketCap = document.querySelector('#marketCap');
+        marketCap.appendChild(displayedMarketCap);
+    } else {
+        console.log('データが見つかりませんでした');
+    }
+    const parsedValue = JSON.parse(value);
+</script>
+<script>
+    // 企業情報をクリックした際に画面遷移できるようにする
+    const button = document.querySelector('button');
+    button.addEventListener('click', async (event) => {
+        // フォームのデフォルト動作を無効化
+        event.preventDefault();
+        // ユーザーの入力したティッカーシンボルを検出
+        const value = localStorage.getItem('responseCompanyOverView');
+        const parsedValue = JSON.parse(value);
+        const tickerSymbol = parsedValue.ticker_symbol;
+        // 取得したティッカーシンボルでリクエストを送信
+        const reqUrl = `/fetch_stocks/info/${encodeURIComponent(tickerSymbol)}`;
+        try {
+            const response = await fetch(reqUrl);
+            if (response.ok) {
+                const responseCompanyInfo = await response.json();
+                // レスポンスを localStorage に保存
+                localStorage.setItem("responseCompanyInfo", JSON.stringify(responseCompanyInfo));
+                // デバック用
+                console.log('req', reqUrl);
+                console.log('tickersymbol', tickerSymbol);
+                console.log('res', response);
+                // 取得したティッカーシンボルをパラメータにして遷移
+                window.location.href = `companyinfo.html`;
+            } else {
+                console.error("サーバーエラー:", response.status, response.statusText);
+                return;
+            }
+        } catch (error) {
+            console.error("データ取得中にエラーが発生しました:", error);
+        }
+    });
+
+</script>
+
+</html>

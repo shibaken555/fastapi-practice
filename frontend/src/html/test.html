@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ボタンクリックイベントを作成してみる</title>
+</head>
+<body>
+    <button>クリック</button>
+    <script>
+        const BUTTON_CLICK_EVENT= document.querySelector("button");
+        BUTTON_CLICK_EVENT.addEventListener('click', () => {
+            alert("ボタンがクリックされました");
+        });
+    </script>
+</body>
+</html>

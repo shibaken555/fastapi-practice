@@ -1,0 +1,28 @@
+networks:
+  shared-network:
+    external: true
+services:
+  frontend:
+    # contextを設定しないとDockerfileのディレクトリを認識できないので、設定する
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: "frontend-api"
+    ports:
+      - 8080:80
+    volumes:
+      - ./frontend/src/html:/usr/share/nginx/html
+    networks:
+      - shared-network
+  backend:
+    # contextを設定しないとDockerfileのディレクトリを認識できないので、設定する
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: "backend-api"
+    ports:
+      - 8000:8000
+    volumes:
+     - ./backend/app:/code/app
+    networks:
+      - shared-network

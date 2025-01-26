@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="jp">
+<title>
+    TickFetch
+</title>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="株式投資に役立つ情報をワンストップで提供">
+</head>
+
+<body>
+    <header>
+        <h1>
+            企業情報を表示するページ
+        </h1>
+    </header>
+    <article>
+        <h2>
+            企業情報
+        </h2>
+        <p id="companyInfo">
+        </p>
+    </article>
+    <script>
+        const value = localStorage.getItem('responseCompanyInfo');
+        if (value) {
+            const parsedValue = JSON.parse(value);
+            console.log('取得したデータ:', parsedValue);
+            // 受け取ったレスポンスから企業情報を表示させる
+            const displayedCompanyInfo = document.createTextNode(parsedValue.company_info);
+            const companyInfo = document.querySelector('#companyInfo');
+            companyInfo.appendChild(displayedCompanyInfo);
+        } else {
+            console.log('データが見つかりませんでした');
+        }
+        const parsedValue = JSON.parse(value);
+    </script>
+</body>
+
+</html>
