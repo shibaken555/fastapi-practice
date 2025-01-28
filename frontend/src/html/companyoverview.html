@@ -30,7 +30,8 @@
             時価総額
         </h2>
     </article>
-    <button type="submit">企業情報</button>
+    <button id="companyInfo" type="submit">企業情報</button>
+    <button id="chart" type="submit">チャート</button>
 </article>
 <script>
     const value = localStorage.getItem('responseCompanyOverView');
@@ -56,8 +57,8 @@
 </script>
 <script>
     // 企業情報をクリックした際に画面遷移できるようにする
-    const button = document.querySelector('button');
-    button.addEventListener('click', async (event) => {
+    const companyInfo = document.querySelector('#companyInfo');
+    companyInfo.addEventListener('click', async (event) => {
         // フォームのデフォルト動作を無効化
         event.preventDefault();
         // ユーザーの入力したティッカーシンボルを検出
@@ -78,6 +79,39 @@
                 console.log('res', response);
                 // 取得したティッカーシンボルをパラメータにして遷移
                 window.location.href = `companyinfo.html`;
+            } else {
+                console.error("サーバーエラー:", response.status, response.statusText);
+                return;
+            }
+        } catch (error) {
+            console.error("データ取得中にエラーが発生しました:", error);
+        }
+    });
+
+</script>
+
+<script>
+    // チャートをクリックした際に画面遷移できるようにする
+    const chart = document.querySelector('#chart');
+    chart.addEventListener('click', async (event) => {
+        // フォームのデフォルト動作を無効化
+        event.preventDefault();
+        // ユーザーの入力したティッカーシンボルを検出
+        const value = localStorage.getItem('responseCompanyOverView');
+        const parsedValue = JSON.parse(value);
+        const tickerSymbol = parsedValue.ticker_symbol;
+        // 取得したティッカーシンボルでリクエストを送信
+        // デフォルトでperiodを5dに設定してチャートを表示させる
+        const reqUrl = `/fetch_price/${encodeURIComponent(tickerSymbol)}/period/5d`;
+        console.log('tickersymbol',tickerSymbol)
+        try {
+            const response = await fetch(reqUrl);
+            if (response.ok) {
+                const responseCompanyInfo = await response.json();
+                // レスポンスを localStorage に保存
+                localStorage.setItem("responseCompanyInfo", JSON.stringify(responseCompanyInfo));
+                // 取得したティッカーシンボルをパラメータにして遷移
+                window.location.href = `stockprice.html`;
             } else {
                 console.error("サーバーエラー:", response.status, response.statusText);
                 return;
