@@ -107,9 +107,9 @@
         try {
             const response = await fetch(reqUrl);
             if (response.ok) {
-                const responseCompanyInfo = await response.json();
+                const responseCompanyPriceData = await response.json();
                 // レスポンスを localStorage に保存
-                localStorage.setItem("responseCompanyInfo", JSON.stringify(responseCompanyInfo));
+                localStorage.setItem("responseCompanyPriceData", JSON.stringify(responseCompanyPriceData));
                 // 取得したティッカーシンボルをパラメータにして遷移
                 window.location.href = `stockprice.html`;
             } else {
