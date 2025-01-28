@@ -11,30 +11,31 @@
 
 <body>
     <h1>
-        検索した企業の株価をチャートで表示するページ
+        株価チャート
     </h1>
-    <div>
-        ここに検索したチャートを表示している企業の名前を記載するJavascriptのコードを書く
-    </div>
 
-    <div>
+    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
         <canvas id="stockPrice"></canvas>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- ここにバックエンドのAPIから返却されたデータを基にチャートを表示させるAPIを書く -->
+    <!-- バックエンドのAPIから返却されたデータを基にチャートを表示させるコード -->
     <script>
-        const chart = document.getElementById('stockPrice');
+        const chart = document.querySelector('#stockPrice');
+        const value = localStorage.getItem('responseCompanyPriceData');
+        const parsedValue = JSON.parse(value);
+        // price_dataを取得。
+        const priceData = parsedValue.price_data;
 
         new Chart(chart, {
             type: 'line',
             data: {
-                // 株価を取得する期間 period
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                // 株価を取得する期間。デフォルトの表示は5日間
+                labels: priceData.map(closePriceDates => closePriceDates.Date),
                 datasets: [{
                     label: '株価',
-                    // 取得した株価のデータ price_data
-                    data: [12, 19, 3, 5, 2, 3],
+                    // 取得した株価のデータ。終値を表示させるのでCloseを使用
+                    data:priceData.map(closePriceDates => closePriceDates.Close),
                     borderWidth: 2
                 }]
             },
