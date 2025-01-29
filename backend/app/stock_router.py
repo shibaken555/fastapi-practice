@@ -55,11 +55,12 @@ async def fetch_price(ticker_symbol: str, period: str):
             "price_data": "正しい期間を入力してください",
         }
     else:
-        # price_historyの型がDataFrameでありそのままだとフロントにreturn出来ないので
-        # 辞書型にしている
+        # price_data.Dateが時刻までを取得しているが、仕様上、年月日までで充分なので調整して返却する
+        # price_historyの型がDataFrameでありそのままだとフロントにreturn出来ないので辞書型にしている
         price_data = price_history.reset_index().to_dict(orient="records")
+        for d in price_data:
+            d["Date"] = d["Date"].strftime('%Y-%m-%d')
         return {"ticker_symbol": ticker_symbol, "price_data": price_data}
-
 
 # 複数の株価を比較する事を目的としたAPI
 # 複数のティッカーシンボルをリストで受け取り、合致する企業の株価をユーザに返却する
