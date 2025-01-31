@@ -7,37 +7,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="株式投資に役立つ情報をワンストップで提供">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
-    <h1>ティッカーシンボルと企業名を表示する概要ページ
+    <h1>企業概要
     </h1>
 </body>
-<article>
-    <article id="companyName">
+<article class="container">
+    <article id="companyName" class="item">
         <h2>
             企業名
         </h2>
     </article>
 
-    <article id="stockPrice">
+    <article id="stockPrice" class="item">
         <h2>
             株価
         </h2>
     </article>
-    <article id="marketCap">
+    <article id="marketCap" class="item">
         <h2>
             時価総額
         </h2>
     </article>
-    <button id="companyInfo" type="submit">企業情報</button>
-    <button id="chart" type="submit">チャート</button>
+    <article id="companyInfo" class="item" type="submit">
+        <h2>
+            企業情報
+        </h2>
+        <button class = "button">
+            企業情報を見る
+        </button>
+    </article>
+    <article id="chart" class="item" type="submit">
+        <h2>
+            チャート
+        </h2>
+        <button class = "button">
+            チャートを見る
+        </button>
+    </article>
+</article>
+
 </article>
 <script>
     const value = localStorage.getItem('responseCompanyOverView');
     if (value) {
         const parsedValue = JSON.parse(value);
-        console.log('取得したデータ:', parsedValue);
         // 受け取ったレスポンスから企業名を表示させる
         const displayedCompanyName = document.createTextNode(parsedValue.company_name);
         const companyName = document.querySelector('#companyName');
@@ -73,10 +89,6 @@
                 const responseCompanyInfo = await response.json();
                 // レスポンスを localStorage に保存
                 localStorage.setItem("responseCompanyInfo", JSON.stringify(responseCompanyInfo));
-                // デバック用
-                console.log('req', reqUrl);
-                console.log('tickersymbol', tickerSymbol);
-                console.log('res', response);
                 // 取得したティッカーシンボルをパラメータにして遷移
                 window.location.href = `companyinfo.html`;
             } else {
@@ -103,7 +115,6 @@
         // 取得したティッカーシンボルでリクエストを送信
         // デフォルトでperiodを5dに設定してチャートを表示させる
         const reqUrl = `/fetch_price/${encodeURIComponent(tickerSymbol)}/period/5d`;
-        console.log('tickersymbol',tickerSymbol)
         try {
             const response = await fetch(reqUrl);
             if (response.ok) {
