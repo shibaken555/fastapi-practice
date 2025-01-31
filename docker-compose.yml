@@ -12,6 +12,7 @@ services:
       - 8080:80
     volumes:
       - ./frontend/src/html:/usr/share/nginx/html
+      - ./frontend/src/css:/usr/share/nginx/html/css
     networks:
       - shared-network
   backend:
