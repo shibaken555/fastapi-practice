@@ -14,7 +14,7 @@ async def fetch_stocks(ticker_symbol):
     if company_info.get("trailingPegRatio") is None:
         return {
             "ticker_symbol": ticker_symbol,
-            "company_info": "存在しないティッカーシンボルです",
+            "message": "存在しないティッカーシンボルです",
         }
     else:
         # 企業名、株価、時価総額を取得し返却する
@@ -26,6 +26,7 @@ async def fetch_stocks(ticker_symbol):
             "company_name": company_name,
             "stock_price": stock_price,
             "market_cap": market_cap,
+            "message": "OK"
         }
 
 
