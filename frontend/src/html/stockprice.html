@@ -21,13 +21,12 @@
 
     <!-- バックエンドのAPIから返却されたデータを基にチャートを表示させるコード -->
     <script>
-        const chart = document.querySelector('#stockPrice');
         const value = localStorage.getItem('responseCompanyPriceData');
         const parsedValue = JSON.parse(value);
         // price_dataを取得。
         const priceData = parsedValue.price_data;
-
-        new Chart(chart, {
+        // チャートの設定を定義
+        const config = {
             type: 'line',
             data: {
                 // 株価を取得する期間。デフォルトの表示は5日間
@@ -35,7 +34,7 @@
                 datasets: [{
                     label: '株価',
                     // 取得した株価のデータ。終値を表示させるのでCloseを使用
-                    data:priceData.map(closePriceDates => closePriceDates.Close),
+                    data: priceData.map(closePriceDates => closePriceDates.Close),
                     borderWidth: 2
                 }]
             },
@@ -46,7 +45,9 @@
                     }
                 }
             }
-        });
+        };
+        const ctx = document.querySelector('#stockPrice');
+        const stockPriceChart = new Chart(ctx, config);
     </script>
 </body>
 
