@@ -13,7 +13,11 @@
     <h1>
         株価チャート
     </h1>
-
+    <form>
+        <input type="radio" name="period" value="5d" checked class="radioButton">5日
+        <input type="radio" name="period" value="1y" class="radioButton">1年
+        <input type="radio" name="period" value="5y" class="radioButton">5年
+    </form>
     <div class="chart-container" style="position: relative; height:40vh; width:80vw">
         <canvas id="stockPrice"></canvas>
     </div>
@@ -48,6 +52,37 @@
         };
         const ctx = document.querySelector('#stockPrice');
         const stockPriceChart = new Chart(ctx, config);
+
+        // 選択されたラジオボタンの値を取得
+        const form = document.querySelector('form');
+        // ラジオボタンを押下した際、指定期間に応じたチャートを表示させる
+        form.addEventListener('click', async (event) => {
+            const selectedRadioButton = document.querySelector('input[name=period]:checked').value;
+            const tickerSymbol = parsedValue.ticker_symbol;
+            const reqUrl = `/fetch_price/${encodeURIComponent(tickerSymbol)}/period/${encodeURIComponent(selectedRadioButton)}`;
+            try {
+                const response = await fetch(reqUrl);
+                if (response.ok) {
+                    const responseCompanyPriceData = await response.json();
+                    // 取得したレスポンスパラメータのうち必要なデータはprice_dataなので、それを指定
+                    const priceData = responseCompanyPriceData.price_data;
+                    // ラジオボタンを押下した期間分の年月日のデータを取得する
+                    // 取得したデータをconfig.data.labelsに指定してチャートをupdate出来るようにする
+                    const updatedLabels = priceData.map(closePriceDates =>closePriceDates.Date);
+                    config.data.labels = updatedLabels;
+                    // ラジオボタンを押下した期間分の株価のデータを取得する
+                    // 取得したデータをconfig.data.datasets[0].dataに指定してチャートをupdate出来るようにする
+                    const updatedData = priceData.map(priceDates =>priceDates.Close);
+                    config.data.datasets[0].data = updatedData;
+                    stockPriceChart.update();
+                } else {
+                    console.error("サーバーエラー:", response.status, response.statusText);
+                    return;
+                }
+            } catch (error) {
+                console.error("データ取得中にエラーが発生しました:", error);
+            }
+        });
     </script>
 </body>
 
