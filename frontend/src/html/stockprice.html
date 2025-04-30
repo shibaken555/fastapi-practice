@@ -13,20 +13,27 @@
     <h1>
         株価チャート
     </h1>
+    <h2 class="companyName">
+        企業名
+    </h2>
     <form>
         <input type="radio" name="period" value="5d" checked class="radioButton">5日
         <input type="radio" name="period" value="1y" class="radioButton">1年
         <input type="radio" name="period" value="5y" class="radioButton">5年
     </form>
-    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+    <div class="chart-container" style="position: relative; height:70vh; width:100vw">
         <canvas id="stockPrice"></canvas>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- バックエンドのAPIから返却されたデータを基にチャートを表示させるコード -->
+    <!-- TODO 5年以上の長期の場合1日毎のデータを表示させると潰れて見づらい為、1週間毎にする -->
     <script>
+        // バックエンドのAPIから返却されたデータを基にチャートや関連する企業情報を表示させるコード
         const value = localStorage.getItem('responseCompanyPriceData');
         const parsedValue = JSON.parse(value);
+        // 検索した企業名を表示させる
+        const tickerSymbol = parsedValue.ticker_symbol;
+        document.querySelector('.companyName').textContent = tickerSymbol;
         // price_dataを取得。
         const priceData = parsedValue.price_data;
         // チャートの設定を定義
