@@ -32,4 +32,4 @@ urllib3==2.3.0
 uvicorn==0.34.0
 watchfiles==1.0.4
 websockets==15.0
-yfinance==0.2.54
+yfinance==0.2.61
