@@ -10,9 +10,6 @@ services:
     container_name: "frontend-api"
     ports:
       - 8080:80
-    volumes:
-      - ./frontend/src/html:/usr/share/nginx/html
-      - ./frontend/src/css:/usr/share/nginx/html/css
     networks:
       - shared-network
   backend:
@@ -23,7 +20,5 @@ services:
     container_name: "backend-api"
     ports:
       - 8000:8000
-    volumes:
-     - ./backend/app:/code/app
     networks:
       - shared-network
