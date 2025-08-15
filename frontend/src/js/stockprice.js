@@ -1,3 +1,5 @@
+import fetchCompaniesStockPrice from "./utils/requestParams";
+
 // バックエンドのAPIから返却されたデータを基にチャートや関連する企業情報を表示させるコード
 const value = localStorage.getItem('responseCompanyPriceData');
 const parsedValue = JSON.parse(value);
@@ -36,7 +38,8 @@ const form = document.querySelector('form');
 form.addEventListener('click', async (event) => {
     const selectedRadioButton = document.querySelector('input[name=period]:checked').value;
     const tickerSymbol = parsedValue.ticker_symbol;
-    const reqUrl = `/fetch_price/${encodeURIComponent(tickerSymbol)}/period/${encodeURIComponent(selectedRadioButton)}`;
+    // const reqUrl = `/fetch_price/${encodeURIComponent(tickerSymbol)}/period/${encodeURIComponent(selectedRadioButton)}`;
+    const reqUrl = fetchCompaniesStockPrice(tickerSymbol,selectedRadioButton);
     try {
         const response = await fetch(reqUrl);
         if (response.ok) {

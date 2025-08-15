@@ -1,3 +1,5 @@
+import {fetchCompaniesStockPrice,fetchCompaniesInformation} from "./utils/requestParams";
+
 const value = localStorage.getItem('responseCompanyOverView');
 if (value) {
     const parsedValue = JSON.parse(value);
@@ -16,7 +18,6 @@ if (value) {
 } else {
     console.log('データが見つかりませんでした');
 }
-const parsedValue = JSON.parse(value);
 
 // 企業情報をクリックした際に画面遷移できるようにする
 const companyInfo = document.querySelector('#companyInfo');
@@ -28,7 +29,7 @@ companyInfo.addEventListener('click', async (event) => {
     const parsedValue = JSON.parse(value);
     const tickerSymbol = parsedValue.ticker_symbol;
     // 取得したティッカーシンボルでリクエストを送信
-    const reqUrl = `/fetch_stocks/info/${encodeURIComponent(tickerSymbol)}`;
+    const reqUrl = fetchCompaniesInformation(tickerSymbol);
     try {
         const response = await fetch(reqUrl);
         if (response.ok) {
@@ -57,7 +58,7 @@ chart.addEventListener('click', async (event) => {
     const tickerSymbol = parsedValue.ticker_symbol;
     // 取得したティッカーシンボルでリクエストを送信
     // デフォルトでperiodを5dに設定してチャートを表示させる
-    const reqUrl = `/fetch_price/${encodeURIComponent(tickerSymbol)}/period/5d`;
+    const reqUrl = fetchCompaniesStockPrice(tickerSymbol,'5d');
     try {
         const response = await fetch(reqUrl);
         if (response.ok) {

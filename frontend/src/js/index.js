@@ -1,3 +1,5 @@
+import fetchCompaniesOverview from "./utils/requestParams";
+
 const form = document.querySelector("#stockForm");
 form.addEventListener('submit', async (event) => {
     // フォームのデフォルト動作を無効化
@@ -5,7 +7,7 @@ form.addEventListener('submit', async (event) => {
     // ユーザーの入力したティッカーシンボルを検出
     const tickerSymbol = document.querySelector('#tickerSymbol').value;
     // 入力したティッカーシンボルでリクエストを送信
-    const reqUrl = `/fetch_stocks/overview/${encodeURIComponent(tickerSymbol)}`;
+    const reqUrl = fetchCompaniesOverview(tickerSymbol);
     try {
         const response = await fetch(reqUrl);
         if (response.ok) {
