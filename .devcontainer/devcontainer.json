@@ -13,7 +13,7 @@
 	"service": "backend",
 	// The optional 'workspaceFolder' property is the path VS Code should open by default when
 	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
-	"workspaceFolder": "/code/app",
+	"workspaceFolder": "/code",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -22,12 +22,11 @@
 				"MS-CEINTL.vscode-language-pack-ja",
 				"ms-python.vscode-pylance",
 				"ms-python.python",
-				"ms-python.black-formatter"
+				"charliermarsh.ruff"
 			],
 			"settings": {
 				"[python]": {
-					"editor.defaultFormatter": "ms-python.black-formatter",
-					"editor.formatOnType": true,
+					"editor.defaultFormatter": "charliermarsh.ruff",
 					"editor.formatOnSave": true
 				}
 			}
