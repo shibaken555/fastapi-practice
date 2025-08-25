@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from app import apirouter
 from app import stock_router
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -18,5 +17,4 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.include_router(apirouter.router)
 app.include_router(stock_router.router)
