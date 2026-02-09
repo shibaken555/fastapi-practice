@@ -1,4 +1,4 @@
-import fetchCompaniesOverview from "./utils/requestParams";
+import { fetchCompaniesOverview } from "./utils/requestParams.js";
 
 const form = document.querySelector("#stockForm");
 form.addEventListener('submit', async (event) => {

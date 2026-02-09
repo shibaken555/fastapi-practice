@@ -1,4 +1,4 @@
-import {fetchCompaniesStockPrice,fetchCompaniesInformation} from "./utils/requestParams";
+import {fetchCompaniesStockPrice,fetchCompaniesInformation} from "./utils/requestParams.js";
 
 const value = localStorage.getItem('responseCompanyOverView');
 if (value) {
