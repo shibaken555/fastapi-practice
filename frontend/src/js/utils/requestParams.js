@@ -2,16 +2,19 @@
 export { fetchCompaniesOverview, fetchCompaniesStockPrice, fetchCompaniesInformation }
 
 function fetchCompaniesOverview(tickerSymbol) {
-    const reqParam = `/fetch_stocks/overview/${encodeURIComponent(tickerSymbol)}`;
+    const reqParam = `/companies/overview/${encodeURIComponent(tickerSymbol)}`;
     return reqParam;
 }
 
 function fetchCompaniesStockPrice(tickerSymbol, period) {
-    const reqParam = `/fetch_price/${encodeURIComponent(tickerSymbol)}/period/${encodeURIComponent(period)}`;
-    return reqParam;
+    const params = new URLSearchParams();
+    params.set("ticker_symbol", tickerSymbol);
+    params.set("period", period);
+
+    return `/companies/stock_price?${params.toString()}`;
 }
 
 function fetchCompaniesInformation(tickerSymbol) {
-    const reqParam = `/fetch_stocks/info/${encodeURIComponent(tickerSymbol)}`;
+    const reqParam = `/companies/info/${encodeURIComponent(tickerSymbol)}`;
     return reqParam;
 }
