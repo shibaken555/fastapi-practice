@@ -17,8 +17,6 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"VisualStudioExptTeam.vscodeintellicode",
-				"VisualStudioExptTeam.intellicode-api-usage-examples",
 				"MS-CEINTL.vscode-language-pack-ja",
 				"ms-python.vscode-pylance",
 				"ms-python.python",
