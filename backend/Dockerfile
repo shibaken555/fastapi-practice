@@ -10,6 +10,3 @@ COPY ./app /code/app
 
 # 依存関係をインストール
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-
-# デフォルトの実行コマンド
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
