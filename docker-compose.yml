@@ -10,6 +10,10 @@ services:
     container_name: "frontend-api"
     ports:
       - 8080:80
+    volumes:
+      - ./frontend/src/html:/usr/share/nginx/html
+      - ./frontend/src/css:/usr/share/nginx/html/css
+      - ./frontend/src/js:/usr/share/nginx/html/js
     networks:
       - shared-network
   backend:
@@ -18,7 +22,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: "backend-api"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
     ports:
       - 8000:8000
+    volumes:
+     - ./backend/app:/code/app
     networks:
       - shared-network
