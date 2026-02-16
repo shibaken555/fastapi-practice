@@ -1,8 +1,9 @@
 import { fetchCompaniesStockPrice, fetchCompaniesInformation } from "./utils/requestParams.js";
 import { addTextNode } from "./utils/domUtils.js";
-const value = localStorage.getItem('responseCompanyOverView');
-if (value) {
-    const parsedValue = JSON.parse(value);
+import { getStoredData } from "./utils/storageManager.js";
+
+const parsedValue = getStoredData('responseCompanyOverView');
+if (parsedValue) {
     // 受け取ったレスポンスから企業名を表示させる
     addTextNode(parsedValue.company_name, "#companyName");
     // 受け取ったレスポンスから最新の株価を表示させる
@@ -19,9 +20,8 @@ companyInfo.addEventListener('click', async (event) => {
     // フォームのデフォルト動作を無効化
     event.preventDefault();
     // ユーザーの入力したティッカーシンボルを検出
-    const value = localStorage.getItem('responseCompanyOverView');
-    const parsedValue = JSON.parse(value);
-    const tickerSymbol = parsedValue.ticker_symbol;
+    const storedData = getStoredData('responseCompanyOverView');
+    const tickerSymbol = storedData.ticker_symbol;
     // 取得したティッカーシンボルでリクエストを送信
     const reqUrl = fetchCompaniesInformation(tickerSymbol);
     try {
@@ -47,9 +47,8 @@ chart.addEventListener('click', async (event) => {
     // フォームのデフォルト動作を無効化
     event.preventDefault();
     // ユーザーの入力したティッカーシンボルを検出
-    const value = localStorage.getItem('responseCompanyOverView');
-    const parsedValue = JSON.parse(value);
-    const tickerSymbol = parsedValue.ticker_symbol;
+    const storedData = getStoredData('responseCompanyOverView');
+    const tickerSymbol = storedData.ticker_symbol;
     // 取得したティッカーシンボルでリクエストを送信
     // デフォルトでperiodを5dに設定してチャートを表示させる
     const reqUrl = fetchCompaniesStockPrice(tickerSymbol, '5d');
