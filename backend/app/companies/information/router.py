@@ -7,7 +7,7 @@ router = APIRouter()
 
 # 企業を検索した時に表示させる概要ページを表示するAPI
 @router.get("/companies/overview/{ticker_symbol}")
-async def fetch_stocks(ticker_symbol):
+async def fetch_companies_overview(ticker_symbol):
     input_ticker_symbol = yf.Ticker(ticker_symbol)
     company_info = input_ticker_symbol.info
     try:
@@ -37,7 +37,7 @@ async def fetch_stocks(ticker_symbol):
 
 # 入力したティッカーシンボルに合致する企業情報を返却するAPI
 @router.get("/companies/info/{ticker_symbol}")
-async def fetch_stocks(ticker_symbol):
+async def fetch_companies_info(ticker_symbol):
     input_ticker_symbol = yf.Ticker(ticker_symbol)
     company = input_ticker_symbol.info
     if company.get("trailingPegRatio") is None:
