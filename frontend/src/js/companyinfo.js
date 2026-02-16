@@ -9,4 +9,3 @@ if (value) {
 } else {
     console.log('データが見つかりませんでした');
 }
-const parsedValue = JSON.parse(value);
