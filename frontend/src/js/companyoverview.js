@@ -1,6 +1,7 @@
 import { fetchCompaniesStockPrice, fetchCompaniesInformation } from "./utils/requestParams.js";
 import { addTextNode } from "./utils/domUtils.js";
 import { getStoredData } from "./utils/storageManager.js";
+import { fetchAndNavigate } from "./utils/apiClient.js";
 
 const parsedValue = getStoredData('responseCompanyOverView');
 if (parsedValue) {
@@ -24,21 +25,7 @@ companyInfo.addEventListener('click', async (event) => {
     const tickerSymbol = storedData.ticker_symbol;
     // 取得したティッカーシンボルでリクエストを送信
     const reqUrl = fetchCompaniesInformation(tickerSymbol);
-    try {
-        const response = await fetch(reqUrl);
-        if (response.ok) {
-            const responseCompanyInfo = await response.json();
-            // レスポンスを localStorage に保存
-            localStorage.setItem("responseCompanyInfo", JSON.stringify(responseCompanyInfo));
-            // 取得したティッカーシンボルをパラメータにして遷移
-            window.location.href = `companyinfo.html`;
-        } else {
-            console.error("サーバーエラー:", response.status, response.statusText);
-            return;
-        }
-    } catch (error) {
-        console.error("データ取得中にエラーが発生しました:", error);
-    }
+    fetchAndNavigate(reqUrl, "responseCompanyInfo", "companyinfo.html");
 });
 
 // チャートをクリックした際に画面遷移できるようにする
@@ -52,19 +39,5 @@ chart.addEventListener('click', async (event) => {
     // 取得したティッカーシンボルでリクエストを送信
     // デフォルトでperiodを5dに設定してチャートを表示させる
     const reqUrl = fetchCompaniesStockPrice(tickerSymbol, '5d');
-    try {
-        const response = await fetch(reqUrl);
-        if (response.ok) {
-            const responseCompanyPriceData = await response.json();
-            // レスポンスを localStorage に保存
-            localStorage.setItem("responseCompanyPriceData", JSON.stringify(responseCompanyPriceData));
-            // 取得したティッカーシンボルをパラメータにして遷移
-            window.location.href = `stockprice.html`;
-        } else {
-            console.error("サーバーエラー:", response.status, response.statusText);
-            return;
-        }
-    } catch (error) {
-        console.error("データ取得中にエラーが発生しました:", error);
-    }
+    fetchAndNavigate(reqUrl, "responseCompanyPriceData", "stockprice.html");
 });
