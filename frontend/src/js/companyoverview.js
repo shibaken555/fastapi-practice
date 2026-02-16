@@ -1,20 +1,14 @@
-import {fetchCompaniesStockPrice,fetchCompaniesInformation} from "./utils/requestParams.js";
-
+import { fetchCompaniesStockPrice, fetchCompaniesInformation } from "./utils/requestParams.js";
+import { addTextNode } from "./utils/domUtils.js";
 const value = localStorage.getItem('responseCompanyOverView');
 if (value) {
     const parsedValue = JSON.parse(value);
     // 受け取ったレスポンスから企業名を表示させる
-    const displayedCompanyName = document.createTextNode(parsedValue.company_name);
-    const companyName = document.querySelector('#companyName');
-    companyName.appendChild(displayedCompanyName);
+    addTextNode(parsedValue.company_name, "#companyName");
     // 受け取ったレスポンスから最新の株価を表示させる
-    const displayedStockPrice = document.createTextNode(parsedValue.stock_price);
-    const stockPrice = document.querySelector('#stockPrice');
-    stockPrice.appendChild(displayedStockPrice);
+    addTextNode(parsedValue.stock_price, "#stockPrice");
     // 受け取ったレスポンスから最新の時価総額を表示させる
-    const displayedMarketCap = document.createTextNode(parsedValue.market_cap);
-    const marketCap = document.querySelector('#marketCap');
-    marketCap.appendChild(displayedMarketCap);
+    addTextNode(parsedValue.market_cap, "#marketCap");
 } else {
     console.log('データが見つかりませんでした');
 }
@@ -58,7 +52,7 @@ chart.addEventListener('click', async (event) => {
     const tickerSymbol = parsedValue.ticker_symbol;
     // 取得したティッカーシンボルでリクエストを送信
     // デフォルトでperiodを5dに設定してチャートを表示させる
-    const reqUrl = fetchCompaniesStockPrice(tickerSymbol,'5d');
+    const reqUrl = fetchCompaniesStockPrice(tickerSymbol, '5d');
     try {
         const response = await fetch(reqUrl);
         if (response.ok) {
