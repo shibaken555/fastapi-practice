@@ -1,6 +1,7 @@
-const value = localStorage.getItem('responseCompanyInfo');
-if (value) {
-    const parsedValue = JSON.parse(value);
+import { getStoredData } from "./utils/storageManager.js";
+
+const parsedValue = getStoredData('responseCompanyInfo');
+if (parsedValue) {
     console.log('取得したデータ:', parsedValue);
     // 受け取ったレスポンスから企業情報を表示させる
     const displayedCompanyInfo = document.createTextNode(parsedValue.company_info);
@@ -9,4 +10,3 @@ if (value) {
 } else {
     console.log('データが見つかりませんでした');
 }
-const parsedValue = JSON.parse(value);

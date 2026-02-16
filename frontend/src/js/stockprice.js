@@ -1,8 +1,8 @@
 import { fetchCompaniesStockPrice } from "./utils/requestParams.js";
+import { getStoredData } from "./utils/storageManager.js";
 
 // バックエンドのAPIから返却されたデータを基にチャートや関連する企業情報を表示させるコード
-const value = localStorage.getItem('responseCompanyPriceData');
-const parsedValue = JSON.parse(value);
+const parsedValue = getStoredData('responseCompanyPriceData');
 // 検索した企業名を表示させる
 const tickerSymbol = parsedValue[0].ticker_symbol;
 document.querySelector('.companyName').textContent = tickerSymbol;
