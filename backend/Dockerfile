@@ -6,7 +6,7 @@ WORKDIR /code
 
 # 依存関係ファイルをコピー
 COPY ./requirements.txt /code/requirements.txt
-COPY ./app /code/app
+COPY ./src /code/src
 
 # 依存関係をインストール
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
