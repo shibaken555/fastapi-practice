@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from app.companies.information import router as information_router
-from app.companies.stock_price import router as stock_price_router
+from src.presentation.information import router as information_router
+from src.presentation.stock_price import router as stock_price_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
